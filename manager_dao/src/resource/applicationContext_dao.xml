@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	<!-- jdbc Template -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		 <constructor-arg ref="dataSource"/>
+	</bean>
+	
+	<!-- mybatis 加载配置文件 -->
+	
+    <bean id="mybatisSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:resource/mybatis.xml"></property>
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.manager.dao.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="mybatisSessionFactory" />
+	</bean>
+	
+ 	<!-- 工具类 -->
+ 	<bean id="springUtil" class="com.manager.common.tool.SpringUtil"></bean>
+ 	<bean id="SQLUtil" class="com.manager.common.tool.SQLUtil">
+ 		<constructor-arg value="/resource/sql/jdbcSQL.properties"></constructor-arg>
+ 	</bean>
+ 	
+	 
+	<bean id="genericJdbcBaseDao" class="com.manager.dao.base.GenericJdbcBaseDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 	系统自动生成  - 创建mybatis dao层访问数据 -->
+	<bean id="userDaoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+       <property name="mapperInterface"  value="com.manager.dao.mapper.TUserMapper" />
+       <property name="sqlSessionFactory" ref="mybatisSessionFactory" />
+    </bean>
+    <bean id="menuDaoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+       <property name="mapperInterface"  value="com.manager.dao.mapper.TMenuMapper" />
+       <property name="sqlSessionFactory" ref="mybatisSessionFactory" />
+    </bean>
+    <bean id="modelDaoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+       <property name="mapperInterface"  value="com.manager.dao.mapper.TModelMapper" />
+       <property name="sqlSessionFactory" ref="mybatisSessionFactory" />
+    </bean>
+	<bean id="orgDaoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+       <property name="mapperInterface"  value="com.manager.dao.mapper.TOrgMapper" />
+       <property name="sqlSessionFactory" ref="mybatisSessionFactory" />
+    </bean>
+    <bean id="roleDaoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+       <property name="mapperInterface"  value="com.manager.dao.mapper.TRoleMapper" />
+       <property name="sqlSessionFactory" ref="mybatisSessionFactory" />
+    </bean>
+    <bean id="roleMenuDaoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+       <property name="mapperInterface"  value="com.manager.dao.mapper.TRoleMenuMapper" />
+       <property name="sqlSessionFactory" ref="mybatisSessionFactory" />
+    </bean>
+    <bean id="roleUserDaoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+       <property name="mapperInterface"  value="com.manager.dao.mapper.TRoleUserMapper" />
+       <property name="sqlSessionFactory" ref="mybatisSessionFactory" />
+    </bean>
+    
+    <!-- 关联查询配置dao -->
+    <bean id="menuDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+       <property name="mapperInterface"  value="com.manager.dao.IMenuDao" />
+       <property name="sqlSessionFactory" ref="mybatisSessionFactory" />
+    </bean>
+    
+    <bean id="orgDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+       <property name="mapperInterface"  value="com.manager.dao.IOrgDao" />
+       <property name="sqlSessionFactory" ref="mybatisSessionFactory" />
+    </bean>
+	
+</beans>

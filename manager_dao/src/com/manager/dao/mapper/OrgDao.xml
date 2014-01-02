@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manager.dao.IOrgDao" >
+  <resultMap id="orgTreeMap" type="com.manager.bean.TreeBean" >
+    <id column="org_id" property="treeId" jdbcType="VARCHAR" />
+    <result column="org_name" property="treeName" jdbcType="VARCHAR" />
+    <result column="org_ident" property="treeIdent" jdbcType="VARCHAR" />
+    <result column="org_desc" property="treeUrl" jdbcType="VARCHAR" />
+    <result column="org_pid" property="treePid" jdbcType="VARCHAR" />
+     <result column="levels" property="levels"/>
+  </resultMap>
+  <select id="getOrgByPid" parameterType="java.util.Map" resultMap="orgTreeMap">
+  	SELECT
+		o.org_pid,
+		o.org_name,
+		o.org_ident,
+		o.org_desc,
+		o.org_status,
+		o.org_id,
+		(
+			select count(*) from t_org oo where oo.org_pid = o.org_id and oo.org_status =  1
+		) levels
+	from t_org o
+	WHERE
+		o.org_status =  1
+	<if test="org_pid != null">
+		and o.org_pid = #{org_pid};
+	</if>
+	<if test="manager_id != null">
+		and o.manager_id = #{manager_id};
+	</if>
+		
+  </select>
+  
+</mapper>

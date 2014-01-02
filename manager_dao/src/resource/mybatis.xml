@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+	</typeAliases>
+    <mappers>
+    <!-- 系统自动生成 -->
+       <mapper resource="com/manager/dao/mapper/TMenuMapper.xml"/>
+       <mapper resource="com/manager/dao/mapper/TModelMapper.xml"/>
+       <mapper resource="com/manager/dao/mapper/TOrgMapper.xml"/>
+       <mapper resource="com/manager/dao/mapper/TRoleMapper.xml"/>
+       <mapper resource="com/manager/dao/mapper/TRoleMenuMapper.xml"/>
+       <mapper resource="com/manager/dao/mapper/TRoleUserMapper.xml"/>
+       <mapper resource="com/manager/dao/mapper/TUserMapper.xml"/>
+    
+    <!-- 关联查询自己定义 -->
+		<mapper resource="com/manager/dao/mapper/MenuDao.xml"/>
+		<mapper resource="com/manager/dao/mapper/OrgDao.xml"/>
+    </mappers>
+</configuration>

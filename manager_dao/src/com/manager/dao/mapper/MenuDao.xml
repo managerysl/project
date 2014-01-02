@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manager.dao.IMenuDao" >
+  <resultMap id="menuTreeMap" type="com.manager.bean.TreeBean" >
+    <id column="menu_id" property="treeId" jdbcType="VARCHAR" />
+    <result column="menu_name" property="treeName" jdbcType="VARCHAR" />
+    <result column="menu_ident" property="treeIdent" jdbcType="VARCHAR" />
+    <result column="menu_url" property="treeUrl" jdbcType="VARCHAR" />
+    <result column="menu_pid" property="treePid" jdbcType="VARCHAR" />
+     <result column="levels" property="levels"/>
+  </resultMap>
+  <select id="getMenuByPid" parameterType="java.util.Map" resultMap="menuTreeMap">
+  	SELECT
+		m.menu_id,
+		m.menu_name,
+		m.menu_ident,
+		m.menu_url,
+		m.menu_param,
+		m.menu_pid,
+		m.menu_type_id,
+		m.model_id,
+		m.manager_id,
+		m.menu_status,
+		(
+			select count(*) from t_menu mm where mm.menu_pid = m.menu_id and mm.menu_status=1
+		) levels
+	from t_menu m where  m.menu_status=1
+	<if test="menu_pid != null">
+		and m.menu_pid = #{menu_pid};
+	</if>
+	<if test="manager_id != null">
+		and m.manager_id = #{manager_id};
+	</if>
+		
+  </select>
+  
+</mapper>

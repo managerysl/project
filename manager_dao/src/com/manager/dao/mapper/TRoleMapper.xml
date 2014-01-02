@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manager.dao.mapper.TRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.manager.bean.TRole" >
+    <id column="Role_role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="Role_role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="Role_role_ident" property="roleIdent" jdbcType="VARCHAR" />
+    <result column="Role_role_status" property="roleStatus" jdbcType="INTEGER" />
+    <result column="Role_manager_id" property="managerId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Role.role_id as Role_role_id, Role.role_name as Role_role_name, Role.role_ident as Role_role_ident, 
+    Role.role_status as Role_role_status, Role.manager_id as Role_manager_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manager.bean.TRoleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_role Role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_role Role
+    where Role.role_id = #{roleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_role
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manager.bean.TRoleExample" >
+    delete from t_role Role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manager.bean.TRole" >
+    insert into t_role (role_id, role_name, role_ident, 
+      role_status, manager_id)
+    values (#{roleId,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{roleIdent,jdbcType=VARCHAR}, 
+      #{roleStatus,jdbcType=INTEGER}, #{managerId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.manager.bean.TRole" >
+    insert into t_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="roleIdent != null" >
+        role_ident,
+      </if>
+      <if test="roleStatus != null" >
+        role_status,
+      </if>
+      <if test="managerId != null" >
+        manager_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleIdent != null" >
+        #{roleIdent,jdbcType=VARCHAR},
+      </if>
+      <if test="roleStatus != null" >
+        #{roleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="managerId != null" >
+        #{managerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manager.bean.TRoleExample" resultType="java.lang.Integer" >
+    select count(*) from t_role Role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_role Role
+    <set >
+      <if test="record.roleId != null" >
+        Role.role_id = #{record.roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleName != null" >
+        Role.role_name = #{record.roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleIdent != null" >
+        Role.role_ident = #{record.roleIdent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleStatus != null" >
+        Role.role_status = #{record.roleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.managerId != null" >
+        Role.manager_id = #{record.managerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_role Role
+    set Role.role_id = #{record.roleId,jdbcType=VARCHAR},
+      Role.role_name = #{record.roleName,jdbcType=VARCHAR},
+      Role.role_ident = #{record.roleIdent,jdbcType=VARCHAR},
+      Role.role_status = #{record.roleStatus,jdbcType=INTEGER},
+      Role.manager_id = #{record.managerId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manager.bean.TRole" >
+    update t_role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleIdent != null" >
+        role_ident = #{roleIdent,jdbcType=VARCHAR},
+      </if>
+      <if test="roleStatus != null" >
+        role_status = #{roleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="managerId != null" >
+        manager_id = #{managerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manager.bean.TRole" >
+    update t_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      role_ident = #{roleIdent,jdbcType=VARCHAR},
+      role_status = #{roleStatus,jdbcType=INTEGER},
+      manager_id = #{managerId,jdbcType=VARCHAR}
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </update>
+</mapper>
