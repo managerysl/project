@@ -3,6 +3,7 @@ package com.manager.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class TMenuExample {
     protected String orderByClause;
 
